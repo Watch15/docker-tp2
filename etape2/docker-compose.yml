@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  http:
+    build:
+      context: .
+      dockerfile: Dockerfile-http
+    ports:
+      - "8080:80"
+    depends_on:
+      - php
+
+  php:
+    build:
+      context: .
+      dockerfile: Dockerfile-php
+    volumes:
+      - ./src:/var/www/html
+    expose:
+      - "9000"
+
+  db:
+    build:
+      context: .
+      dockerfile: Dockerfile-db
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: test_db
